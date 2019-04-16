@@ -12,4 +12,17 @@ defmodule TransmuteTest do
       expected_map = %{"SOME_KEY" => 1, "OTHER_KEY" => 2}
       assert Transmute.map_keys(start_map, atom_to_caps) == expected_map
   end
+
+  describe "transform" do
+    test "map_key specifies how to map each key through Transmute.map_keys" do
+      start_map = %{"someKey" => 1, "otherKey" => 2}
+      expected_map = %{"SOMEKEY" => 1, "OTHERKEY" => 2}
+      assert Transmute.transform(start_map, map_key: &String.upcase/1) == expected_map
+
+      start_map = %{some_key: 1, other_key: 2}
+      atom_to_caps = &(&1 |> Atom.to_string() |> String.upcase())
+      expected_map = %{"SOME_KEY" => 1, "OTHER_KEY" => 2}
+      assert Transmute.transform(start_map, map_key: atom_to_caps) == expected_map
+    end
+  end
 end
