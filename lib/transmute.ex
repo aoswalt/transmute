@@ -1,18 +1,8 @@
 defmodule Transmute do
-  @moduledoc """
-  Documentation for Transmute.
-  """
+  @type map_key_fn :: (any -> any)
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Transmute.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  @spec map_keys(data :: map, mapper :: map_key_fn) :: map
+  def map_keys(data, mapper) do
+    Map.new(data, fn {k, v} -> {mapper.(k), v} end)
   end
 end
