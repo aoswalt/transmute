@@ -41,5 +41,20 @@ defmodule TransmuteTest do
       expected_data = %{that_key: 1, some_key: 2}
       assert Transmute.transform(start_data, key_map: key_map) == expected_data
     end
+
+    test "keys are mapped before the shape" do
+      start_data = %{a: 1}
+      map_key = &Atom.to_string/1
+
+      map_shape = fn map ->
+        assert %{"a" => _} = map
+        Map.to_list(map)
+      end
+
+      expected_data = [{"a", 1}]
+
+      assert Transmute.transform(start_data, map_key: map_key, map_shape: map_shape) ==
+               expected_data
+    end
   end
 end
