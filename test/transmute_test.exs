@@ -34,5 +34,12 @@ defmodule TransmuteTest do
       expected_data = [other_key: 2, some_key: 1]
       assert Transmute.transform(start_data, map_shape: &Map.to_list/1) == expected_data
     end
+
+    test "key_map sets specific incoming key mappings" do
+      start_data = %{this_key: 1, some_key: 2}
+      key_map = %{this_key: :that_key}
+      expected_data = %{that_key: 1, some_key: 2}
+      assert Transmute.transform(start_data, key_map: key_map) == expected_data
+    end
   end
 end
