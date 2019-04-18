@@ -56,5 +56,11 @@ defmodule TransmuteTest do
       assert Transmute.transform(start_data, map_key: map_key, map_shape: map_shape) ==
                expected_data
     end
+
+    test "only keeps a subset of incoming keys" do
+      start_data = %{this_key: 1, some_key: 2}
+      expected_data = %{this_key: 1}
+      assert Transmute.transform(start_data, only: [:this_key]) == expected_data
+    end
   end
 end

@@ -11,8 +11,12 @@ defmodule Transmute do
     map_key = Keyword.get(opts, :map_key, &identity/1)
     map_shape = Keyword.get(opts, :map_shape, &identity/1)
     key_map = Keyword.get(opts, :key_map, %{})
+    only = Keyword.get(opts, :only, Map.keys(data))
 
-    {overrides, non_overrides} = Enum.split_with(data, fn {k, _v} -> Map.has_key?(key_map, k) end)
+    {overrides, non_overrides} =
+      data
+      |> Map.take(only)
+      |> Enum.split_with(fn {k, _v} -> Map.has_key?(key_map, k) end)
 
     override_map = map_keys(overrides, &Map.get(key_map, &1))
 
