@@ -8,6 +8,10 @@ defmodule Transmute do
 
   @spec transform(data :: map, opts :: transform_options) :: any
   def transform(data, opts) do
+    if Keyword.has_key?(opts, :only) and Keyword.has_key?(opts, :except) do
+      raise RuntimeError, message: ":only and :except should not be used together"
+    end
+
     map_key = Keyword.get(opts, :map_key, &identity/1)
     map_shape = Keyword.get(opts, :map_shape, &identity/1)
     key_map = Keyword.get(opts, :key_map, %{})

@@ -68,5 +68,9 @@ defmodule TransmuteTest do
       expected_data = %{this_key: 1}
       assert Transmute.transform(start_data, except: [:some_key]) == expected_data
     end
+
+    test "using only and except together raises an error" do
+      assert_raise RuntimeError, fn -> Transmute.transform(%{}, only: [], except: []) end
+    end
   end
 end
