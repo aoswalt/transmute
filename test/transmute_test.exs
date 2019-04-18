@@ -62,5 +62,11 @@ defmodule TransmuteTest do
       expected_data = %{this_key: 1}
       assert Transmute.transform(start_data, only: [:this_key]) == expected_data
     end
+
+    test "except excludes a set of incoming keys" do
+      start_data = %{this_key: 1, some_key: 2}
+      expected_data = %{this_key: 1}
+      assert Transmute.transform(start_data, except: [:some_key]) == expected_data
+    end
   end
 end
