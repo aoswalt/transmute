@@ -11,7 +11,7 @@ defmodule Transmute do
         ]
 
   @spec transform(data :: map, opts :: transform_options) :: any
-  def transform(data, opts) do
+  def transform(data, opts \\ []) do
     if Keyword.has_key?(opts, :only) and Keyword.has_key?(opts, :except) do
       raise RuntimeError, message: ":only and :except should not be used together"
     end
