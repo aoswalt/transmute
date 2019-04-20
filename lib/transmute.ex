@@ -3,7 +3,11 @@ defmodule Transmute do
   @type map_shape_fn :: (map -> any)
 
   @type transform_options :: [
-          {:map_key, map_key_fn} | {:map_shape, map_shape_fn} | {:key_map, map}
+          {:map_key, map_key_fn}
+          | {:map_shape, map_shape_fn}
+          | {:key_map, map}
+          | {:only, list}
+          | {:except, list}
         ]
 
   @spec transform(data :: map, opts :: transform_options) :: any
