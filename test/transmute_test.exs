@@ -13,6 +13,12 @@ defmodule TransmuteTest do
     assert Transmute.map_keys(start_map, atom_to_caps) == expected_map
   end
 
+  test "camelize converts an atom or string to camelCase" do
+    assert Transmute.camelize(:word) == "word"
+    assert Transmute.camelize(:some_thing) == "someThing"
+    assert Transmute.camelize("some_thing") == "someThing"
+  end
+
   describe "transform" do
     test "map_key specifies how to map each key through Transmute.map_keys" do
       start_map = %{"someKey" => 1, "otherKey" => 2}

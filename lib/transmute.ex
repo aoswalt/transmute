@@ -42,4 +42,17 @@ defmodule Transmute do
   end
 
   defp identity(value), do: value
+
+  @spec camelize(atom | String.t()) :: String.t()
+  def camelize(atom) when is_atom(atom) do
+    atom
+    |> Atom.to_string()
+    |> camelize()
+  end
+
+  def camelize(string) when is_binary(string) do
+    string
+    |> Macro.camelize()
+    |> (fn word -> Regex.replace(~r/^./, word, &String.downcase/1) end).()
+  end
 end
