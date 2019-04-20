@@ -1,5 +1,5 @@
 defmodule TransmuteTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   doctest Transmute
 
   test "map_keys runs a function for each key of a map" do
