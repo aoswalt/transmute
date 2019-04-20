@@ -20,6 +20,11 @@ defmodule TransmuteTest do
   end
 
   describe "transform" do
+    test "uses identity functions for default mapping" do
+      data = %{:a_key => 1, "anotherKey" => 2}
+      assert Transmute.transform(data) == data
+    end
+
     test "map_key specifies how to map each key through Transmute.map_keys" do
       start_map = %{"someKey" => 1, "otherKey" => 2}
       expected_map = %{"SOMEKEY" => 1, "OTHERKEY" => 2}
