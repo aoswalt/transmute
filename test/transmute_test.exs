@@ -110,5 +110,21 @@ defmodule TransmuteDefaultsTest do
 
       assert Transmute.transform(start_data) == expected_data
     end
+
+    test "default arguments can be overwritten" do
+      Application.put_env(:transmute, :defaults, map_key: &Atom.to_string/1)
+
+      start_data = %{some_key: 1}
+      expected_data = %{"someKey" => 1}
+
+      assert Transmute.transform(start_data, map_key: &Transmute.camelize/1) == expected_data
+
+      Application.put_env(:transmute, :defaults, map_shape: &Map.to_list/1)
+
+      start_data = %{some_key: 1}
+      expected_data = Map.keys(start_data)
+
+      assert Transmute.transform(start_data, map_shape: &Map.keys/1) == expected_data
+    end
   end
 end
