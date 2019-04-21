@@ -19,6 +19,12 @@ defmodule TransmuteTest do
     assert Transmute.camelize("some_thing") == "someThing"
   end
 
+  test "invert_map flips a maps keys and values" do
+    start_map = %{a: 1, b: 2}
+    expected_map = %{1 => :a, 2 => :b}
+    assert Transmute.invert_map(start_map) == expected_map
+  end
+
   describe "transform" do
     test "uses identity functions for default mapping" do
       data = %{:a_key => 1, "anotherKey" => 2}

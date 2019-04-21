@@ -72,4 +72,9 @@ defmodule Transmute do
     |> Macro.camelize()
     |> (fn word -> Regex.replace(~r/^./, word, &String.downcase/1) end).()
   end
+
+  @spec invert_map(map) :: map
+  def invert_map(map) do
+    Map.new(map, fn {k, v} -> {v, k} end)
+  end
 end
