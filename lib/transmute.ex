@@ -41,7 +41,14 @@ defmodule Transmute do
   end
 
   @spec purify(Transmutable.t(), options :: Keyword.t()) :: any
-  defdelegate purify(data, opts \\ []), to: Transmutable
+  def purify(data, opts \\ []) do
+    with_struct = Keyword.get(opts, :with, Map)
+    protocol_module = Module.concat(Transmutable, with_struct)
+
+    new_opts = Keyword.delete(opts, :with)
+
+    apply(protocol_module, :purify, [data, new_opts])
+  end
 
   @spec tarnish(Transmutable.t(), options :: Keyword.t()) :: any
   defdelegate tarnish(data, opts \\ []), to: Transmutable
