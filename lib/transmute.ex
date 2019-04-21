@@ -40,6 +40,12 @@ defmodule Transmute do
     |> map_shape.()
   end
 
+  @spec purify(Transmutable.t(), options :: Keyword.t()) :: any
+  defdelegate purify(data, opts \\ []), to: Transmutable
+
+  @spec tarnish(Transmutable.t(), options :: Keyword.t()) :: any
+  defdelegate tarnish(data, opts \\ []), to: Transmutable
+
   @spec map_keys(data :: Enumerable.t(), mapper :: map_key_fn) :: map
   def map_keys(data, mapper) do
     Map.new(data, fn {k, v} -> {mapper.(k), v} end)

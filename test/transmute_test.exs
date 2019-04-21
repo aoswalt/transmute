@@ -84,6 +84,18 @@ defmodule TransmuteTest do
       assert_raise RuntimeError, fn -> Transmute.transform(%{}, only: [], except: []) end
     end
   end
+
+  test "map is the base case for purify and tarnish" do
+    start_map = %{some_key: 1}
+    expected_map = start_map
+    assert Transmute.purify(start_map) == expected_map
+    assert Transmute.tarnish(start_map) == expected_map
+
+    start_map = %{some_key: 1}
+    expected_map = %{"someKey" => 1}
+    assert Transmute.purify(start_map, map_key: &Transmute.camelize/1) == expected_map
+    assert Transmute.tarnish(start_map, map_key: &Transmute.camelize/1) == expected_map
+  end
 end
 
 defmodule TransmuteDefaultsTest do
