@@ -96,6 +96,11 @@ defmodule TransmuteTest do
     assert Transmute.purify(start_map, map_key: &Transmute.camelize/1) == expected_map
     assert Transmute.tarnish(start_map, map_key: &Transmute.camelize/1) == expected_map
   end
+
+  test "tarnish and purify use the Transmutable protocol" do
+    assert Transmute.purify(%{some_key: 1}, with: TransmutedImpl) == :pure
+    assert Transmute.tarnish(%TransmutedImpl{some_key: 1}) == :tarnished
+  end
 end
 
 defmodule TransmuteDefaultsTest do
