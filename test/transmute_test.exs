@@ -107,6 +107,20 @@ defmodule TransmuteTest do
     assert Transmute.purify(%{some_key: 1}, with: TransmutedImpl) == :pure
     assert Transmute.tarnish(%TransmutedImpl{some_key: 1}) == :tarnished
   end
+
+  test "Transmutable can be derived" do
+    assert Transmute.purify(%{"someKey" => 1}, with: TransmutedDerive) == %TransmutedDerive{
+             some_key: 1
+           }
+
+    assert Transmute.tarnish(%TransmutedDerive{some_key: 1}) == %{"someKey" => 1}
+
+    assert Transmute.purify(%{"someKey" => 1}, with: TransmutedDeriveMap) == %TransmutedDeriveMap{
+             some_key: 1
+           }
+
+    assert Transmute.tarnish(%TransmutedDeriveMap{some_key: 1}) == %{"someKey" => 1}
+  end
 end
 
 defmodule TransmuteDefaultsTest do
