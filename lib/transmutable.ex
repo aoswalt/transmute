@@ -1,6 +1,8 @@
 defprotocol Transmutable do
   @type t :: any
 
+  @fallback_to_any Application.get_env(:transmute, :fallback_to_any, false)
+
   @spec purify(t, options :: Keyword.t()) :: any
   def purify(data, opts \\ [])
 
@@ -76,6 +78,29 @@ defimpl Transmutable, for: Any do
     end
   end
 
-  defdelegate purify(map, opts \\ []), to: Transmute, as: :transform
-  defdelegate tarnish(map, opts \\ []), to: Transmute, as: :transform
+  def purify(data, opts \\ [])
+
+  def purify(%_{} = data, opts) do
+    data |> Map.from_struct() |> Transmute.purify(opts)
+  end
+
+  def purify(data, _opts) do
+    raise Protocol.UndefinedError,
+      protocol: Transmutable,
+      value: data,
+      description: "fallback_to_any specified but unexpected type"
+  end
+
+  def tarnish(data, opts \\ [])
+
+  def tarnish(%_{} = data, opts) do
+    data |> Map.from_struct() |> Transmute.tarnish(opts)
+  end
+
+  def tarnish(data, _opts) do
+    raise Protocol.UndefinedError,
+      protocol: Transmutable,
+      value: data,
+      description: "fallback_to_any specified but unexpected type"
+  end
 end
