@@ -11,7 +11,7 @@ defmodule Transmute do
         ]
 
   @spec transform(data :: map, opts :: transform_options) :: any
-  def transform(data, call_opts \\ []) do
+  def transform(data, call_opts \\ []) when is_map(data) do
     defaults = Application.get_env(:transmute, :defaults, [])
 
     opts = Enum.concat(call_opts, defaults)
