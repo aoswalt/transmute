@@ -8,7 +8,8 @@ defmodule Transmute.MixProject do
       elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
       elixirc_paths: elixirc_paths(Mix.env()),
-      deps: deps()
+      deps: deps(),
+      dialyzer: [flags: [:underspecs, :unmatched_returns]]
     ]
   end
 
