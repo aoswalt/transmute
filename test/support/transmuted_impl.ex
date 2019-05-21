@@ -1,4 +1,6 @@
 defmodule TransmutedImpl do
+  @moduledoc false
+
   defstruct [:some_key]
 
   defimpl Transmutable do
