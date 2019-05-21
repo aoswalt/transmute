@@ -121,6 +121,14 @@ defmodule TransmuteTest do
 
     assert Transmute.tarnish(%TransmutedDeriveMap{some_key: 1}) == %{"someKey" => 1}
   end
+
+  test "call options override derive options" do
+    start_data = %TransmutedDerive{some_key: 1}
+    expected_data = %{"some_keyabc" => 1}
+    map_fn = &(&1 |> Atom.to_string() |> Kernel.<>("abc"))
+
+    assert Transmute.tarnish(start_data, map_key: map_fn) == expected_data
+  end
 end
 
 defmodule TransmuteDefaultsTest do
