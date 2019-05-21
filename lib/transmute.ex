@@ -47,7 +47,7 @@ defmodule Transmute do
 
     new_opts = Keyword.delete(opts, :with)
 
-    apply(protocol_module, :purify, [data, new_opts])
+    protocol_module.purify(data, new_opts)
   end
 
   @spec tarnish(Transmutable.t(), options :: Keyword.t()) :: any
