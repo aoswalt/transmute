@@ -81,7 +81,7 @@ defimpl Transmutable, for: Any do
   def purify(data, opts \\ [])
 
   def purify(%_{} = data, opts) do
-    data |> Map.from_struct() |> Transmute.purify(opts)
+    data |> Map.from_struct() |> Transmutable.Map.purify(opts)
   end
 
   def purify(data, _opts) do
@@ -94,7 +94,7 @@ defimpl Transmutable, for: Any do
   def tarnish(data, opts \\ [])
 
   def tarnish(%_{} = data, opts) do
-    data |> Map.from_struct() |> Transmute.tarnish(opts)
+    data |> Map.from_struct() |> Transmutable.Map.tarnish(opts)
   end
 
   def tarnish(data, _opts) do
