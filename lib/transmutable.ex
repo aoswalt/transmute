@@ -11,8 +11,39 @@ defprotocol Transmutable do
 end
 
 defimpl Transmutable, for: Map do
-  defdelegate purify(map, opts \\ []), to: Transmute, as: :transform
-  defdelegate tarnish(map, opts \\ []), to: Transmute, as: :transform
+  def purify(map, call_opts \\ []) do
+    defaults = Application.get_env(:transmute, :defaults, [])
+
+    default_opts =
+      Enum.reject(
+        [
+          map_key: Keyword.get(defaults, :purify_key),
+          map_shape: Keyword.get(defaults, :purify_shape)
+        ],
+        fn {_k, v} -> is_nil(v) end
+      )
+
+    opts = Enum.concat(call_opts, default_opts)
+
+    Transmute.transform(map, opts)
+  end
+
+  def tarnish(map, call_opts \\ []) do
+    defaults = Application.get_env(:transmute, :defaults, [])
+
+    default_opts =
+      Enum.reject(
+        [
+          map_key: Keyword.get(defaults, :tarnish_key),
+          map_shape: Keyword.get(defaults, :tarnish_shape)
+        ],
+        fn {_k, v} -> is_nil(v) end
+      )
+
+    opts = Enum.concat(call_opts, default_opts)
+
+    Transmute.transform(map, opts)
+  end
 end
 
 defimpl Transmutable, for: Any do
