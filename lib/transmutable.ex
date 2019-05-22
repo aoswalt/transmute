@@ -66,13 +66,14 @@ defimpl Transmutable, for: Any do
           opts =
             Enum.concat([call_opts, @purify_opts, [map_shape: &struct!(unquote(module), &1)]])
 
-          Transmutable.purify(map, opts)
+          Transmute.transform(map, opts)
         end
 
         def tarnish(data, call_opts \\ []) do
           map = Map.from_struct(data)
           opts = Enum.concat(call_opts, @tarnish_opts)
-          Transmutable.tarnish(map, opts)
+
+          Transmute.transform(map, opts)
         end
       end
     end
