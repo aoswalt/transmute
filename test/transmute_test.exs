@@ -103,6 +103,12 @@ defmodule TransmuteTest do
     assert Transmute.tarnish(start_map, map_key: &Transmute.camelize/1) == expected_map
   end
 
+  test "a map can be purified into a struct" do
+    start_data = %{some_key: 1}
+    expected_data = %Transmuted{some_key: 1}
+    assert Transmute.purify(start_data, with: Transmuted) == expected_data
+  end
+
   test "tarnish and purify use the Transmutable protocol" do
     assert Transmute.purify(%{some_key: 1}, with: TransmutedImpl) == :pure
     assert Transmute.tarnish(%TransmutedImpl{some_key: 1}) == :tarnished

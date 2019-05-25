@@ -14,11 +14,19 @@ defimpl Transmutable, for: Map do
   def purify(map, call_opts \\ []) do
     defaults = Application.get_env(:transmute, :defaults, [])
 
+    to_struct =
+      call_opts
+      |> Keyword.get(:with)
+      |> case do
+        nil -> nil
+        name -> &struct!(name, &1)
+      end
+
     default_opts =
       Enum.reject(
         [
           map_key: Keyword.get(defaults, :purify_key),
-          map_shape: Keyword.get(defaults, :purify_shape)
+          map_shape: Keyword.get(defaults, :purify_shape, to_struct)
         ],
         fn {_k, v} -> is_nil(v) end
       )
