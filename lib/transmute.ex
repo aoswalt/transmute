@@ -42,15 +42,15 @@ defmodule Transmute do
 
   @spec purify(Transmutable.t(), options :: Keyword.t()) :: any
   def purify(data, opts \\ []) do
-    with_struct = Keyword.get(opts, :with, Map)
-    with_module = Module.concat(Transmutable, with_struct)
-
-    protocol_module = case Code.ensure_loaded(with_module) do
+    opts
+    |> Keyword.get(:with, Map)
+    |> (&Module.concat(Transmutable, &1)).()
+    |> Code.ensure_loaded()
+    |> case do
       {:module, mod} -> mod
       {:error, _} -> Transmutable.Map
     end
-
-    protocol_module.purify(data, opts)
+    |> apply(:purify, [data, opts])
   end
 
   @spec tarnish(Transmutable.t(), options :: Keyword.t()) :: any
